@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<!-- Início do documento HTML padrão -->
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <!-- Define o idioma e o padrão de acentuação usado -->
+
+  <style>
+  .estrela {
+    position: fixed;
+    top: -10px;
+    width: 8px;
+    height: 8px;
+    background: white;
+    border-radius: 50%;
+    box-shadow: 0 0 5px white;
+    animation: cair linear infinite;
+    opacity: 0.8;
+    z-index: 1000;
+  }
+
+  @keyframes cair {
+    to {
+      transform: translateY(100vh);
+      opacity: 0;
+    }
+  }
+</style>
+
+  <title>Calculadora de Médias da Faculdade</title>
+  <!-- Título da aba do navegador -->
+
+ <link href="https://fonts.google.com/specimen/Press+Start+2P" rel="stylesheet">
+
+  <style>
+    /* Estilos visuais (cores, fontes, layout etc) */
+    body {
+      background-color: #000000;
+   background-image: url('faminhos.jpg');
+    background-size: cover;
+    /* background-position: center;
+    background-repeat: no-repeat;
+    font-family: 'Press Start 2P', cursive; /* Fonte divertida e cursiva */
+     color: #e7ebe8; /* Cor de texto rosa forte */
+    padding: 30px; /* Espaço interno nas bordas do corpo da página */
+    }
+
+    h1 {
+      text-align: center; /* Centraliza o título */
+      font-size: 2.5em; /* Tamanho do texto do título */
+    }
+
+    .morango {
+      display: block; /* Faz a imagem ser tratada como bloco (permite centralizar) */
+      margin: 0 auto; /* Centraliza a imagem horizontalmente */
+      width: 50px; /* Largura da imagem */
+      pointer-events: none; /* Impede clique na imagem */
+      user-select: none; /* Impede seleção do conteúdo da imagem */
+    }
+
+    .container {
+      max-width: 400px; /* Largura máxima da caixinha do formulário */
+      background-color: #747774; /* Cor de fundo da caixinha */
+      padding: 20px; /* Espaço interno da caixinha */
+      border-radius: 20px; /* Borda arredondada */
+      box-shadow: 0 0 15px #d1d88f; /* Sombra rosa para destacar */
+      margin: 20px auto; /* Espaçamento e centralização na página */
+    }
+
+    label {
+      display: block; /* Faz o rótulo ocupar a linha toda */
+      margin-top: 10px; /* Espaço acima do rótulo */
+      font-weight: bold; /* Deixa o texto em negrito */
+    }
+
+    input {
+      width: 100%; /* Faz os campos ocuparem toda a largura disponível */
+      padding: 10px; /* Espaço interno no campo */
+      margin-top: 5px; /* Espaço entre o rótulo e o campo */
+      border: 2px solid #e5eee7; /* Borda rosa clara */
+      border-radius: 10px; /* Bordas arredondadas */
+      background-color: #121412af; /* Fundo bem clarinho */
+      color: #d3d6d4; /* Cor do texto no input */
+    }
+
+    button {
+      margin-top: 20px; /* Espaço acima do botão */
+      width: 100%; /* O botão ocupa toda a largura */
+      padding: 12px; /* Espaço interno */
+      border: none; /* Remove borda padrão */
+      border-radius: 15px; /* Arredondamento */
+      background-color: #adacac; /* Cor de fundo rosa */
+      color: white; /* Cor da fonte */
+      font-size: 1.1em; /* Tamanho da fonte */
+      cursor: pointer; /* Muda o cursor para a mãozinha */
+    }
+
+    #resultado {
+      margin-top: 20px; /* Espaço acima do resultado */
+      font-size: 1.2em; /* Tamanho da fonte do resultado */
+      text-align: center; /* Centraliza o texto */
+      background-color: #212221; /* Fundo rosa claro */
+      padding: 15px; /* Espaço interno */
+      border-radius: 15px; /* Arredondamento */
+    }
+
+    .grupo {
+      display: flex; /* Organiza os campos lado a lado */
+      gap: 10px; /* Espaço entre eles */
+      margin-bottom: 10px; /* Espaço entre os grupos */
+    }
+
+    .grupo input {
+      flex: 1; /* Faz os inputs ocuparem o mesmo espaço */
+    }
+
+    .alinhado-esquerda {
+      text-align: left; /* Alinha tudo dentro da caixinha à esquerda */
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Parte visível da página -->
+  <h1>✨ Calculadora de Médias da Faculdade ✨</h1>
+  <!-- Título principal com emojis de morango -->
+
+  <div class="container alinhado-esquerda">
+    <!-- Bloco que contém os campos, com fundo rosa e alinhado à esquerda -->
+
+    <!-- GRUPO 1: Nota e peso -->
+    <div class="grupo">
+      <label>Nota :</label>
+      <input type="number" id="nota1" step="0.01" placeholder=":)">
+      <label>Peso :</label>
+      <input type="number" id="peso1" step="0.01" placeholder=":D">
+    </div>
+
+    <!-- GRUPO 2 -->
+    <div class="grupo">
+      <label>Nota :</label>
+      <input type="number" id="nota2" step="0.01" placeholder=":P">
+      <label>Peso :</label>
+      <input type="number" id="peso2" step="0.01" placeholder=":0">
+    </div>
+
+
+    <!-- Botão que executa o cálculo -->
+    <button onclick="calcularMedia()"> -- Calcular -- </button>
+
+    <!-- Onde o resultado vai aparecer -->
+    <div id="resultado"></div>
+  </div>
+
+  <!-- Início do JavaScript -->
+  <script>
+    function calcularMedia() {
+      // Pega os valores digitados nos campos, e transforma em número (float)
+      const notas = [
+        parseFloat(document.getElementById('nota1').value) || 0,
+        parseFloat(document.getElementById('nota2').value) || 0,
+      ];
+
+      const pesos = [
+        parseFloat(document.getElementById('peso1').value) || 0,
+        parseFloat(document.getElementById('peso2').value) || 0,
+      ];
+
+      // Inicializa as somas
+      let somaPonderada = 0;
+      let somaPesos = 0;
+
+      // Loop que calcula o total da soma ponderada e dos pesos
+      for (let i = 0; i < notas.length; i++) {
+        somaPonderada += notas[i] * pesos[i];
+        somaPesos += pesos[i];
+      }
+
+      // Calcula a média ponderada
+      const media = somaPesos === 0 ? 0 : somaPonderada / somaPesos;
+
+      // Exibe o resultado na div com id="resultado"
+      document.getElementById("resultado").innerText = `Média ponderada: ${media.toFixed(2)}`;
+    }
+  </script>
+
+  <script>
+  // Quantidade de estrelinhas
+  const quantidade = 30;
+
+  for (let i = 0; i < quantidade; i++) {
+    const estrela = document.createElement("div");
+    estrela.className = "estrela";
+
+    // Tamanho aleatório
+    const tamanho = Math.random() * 4 + 4; // entre 4px e 8px
+    estrela.style.width = `${tamanho}px`;
+    estrela.style.height = `${tamanho}px`;
+
+    // Posição aleatória na horizontal
+    estrela.style.left = `${Math.random() * 100}vw`;
+
+    // Duração aleatória da animação (devagarzinho)
+    estrela.style.animationDuration = `${6 + Math.random() * 6}s`; // entre 6s e 12s
+
+    // Delay para não cair tudo junto
+    estrela.style.animationDelay = `${Math.random() * 10}s`;
+
+    document.body.appendChild(estrela);
+  }
+</script>
+
+
+</body>
+</html>
